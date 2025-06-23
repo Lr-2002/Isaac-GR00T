@@ -126,6 +126,7 @@ class VideoTransform(ModalityTransform):
 
     def set_metadata(self, dataset_metadata: DatasetMetadata):
         super().set_metadata(dataset_metadata)
+        # breakpoint()
         self.original_resolutions = {}
         for key in self.apply_to:
             split_keys = key.split(".")
