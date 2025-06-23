@@ -454,8 +454,8 @@ class BimanualARXGripperDataConfig(BaseDataConfig):
         "state.ee_right_arm": "min_max",
     }
     # state_target_rotations = {
-    #     "state.right_arm_eef_quat": "rotation_6d",
-    #     "state.left_arm_eef_quat": "rotation_6d",
+    #     "state.ee_left_arm": "rotation_6d",
+    #     "state.ee_right_arm": "rotation_6d",
     # }
     # action_normalization_modes = {
     #     "action.right_gripper_close": "binary",
@@ -508,7 +508,7 @@ class BimanualARXGripperDataConfig(BaseDataConfig):
             #     normalization_modes=self.state_normalization_modes,
             #     target_rotations=self.state_target_rotations,
             # ),
-            # # action transforms
+            # action transforms
             # StateActionToTensor(apply_to=self.action_keys),
             # StateActionTransform(
             #     apply_to=self.action_keys,

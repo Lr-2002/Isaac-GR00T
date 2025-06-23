@@ -394,7 +394,7 @@ class StateActionTransform(InvertibleModalityTransform):
             if key not in self.modality_metadata:
                 modality, state_key = split_key
                 assert hasattr(modality_metadata, modality), f"{modality} config not found"
-                breakpoint()
+                # breakpoint()
                 assert state_key in getattr(
                     modality_metadata, modality
                 ), f"{state_key} config not found"
@@ -412,7 +412,7 @@ class StateActionTransform(InvertibleModalityTransform):
             assert (
                 len(getattr(modality_metadata, modality)[state_key].shape) == 1
             ), f"{getattr(modality_metadata, modality)[state_key].shape=}"
-            breakpoint()
+            # breakpoint()
             self.normalization_statistics[key] = getattr(dataset_statistics, modality)[
                 state_key
             ].model_dump()

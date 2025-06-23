@@ -73,6 +73,11 @@ class ConcatTransform(InvertibleModalityTransform):
 
         return super().model_dump(*args, include=include, **kwargs)
 
+    def tensorfy(self, data):
+        if isinstance(data, torch.Tensor):
+            return data 
+        else: 
+            return torch.tensor(data)
     def apply(self, data: dict) -> dict:
         grouped_keys = {}
         for key in data.keys():
@@ -131,7 +136,7 @@ class ConcatTransform(InvertibleModalityTransform):
             # Concatenate the state keys
             # We'll have StateActionToTensor before this transform, so here we use torch.cat
             data["state"] = torch.cat(
-                [data.pop(key) for key in self.state_concat_order], dim=-1
+                [self.tensorfy(data.pop(key)) for key in self.state_concat_order], dim=-1
             )  # [T, D_state]
 
         if "action" in grouped_keys:
@@ -152,7 +157,7 @@ class ConcatTransform(InvertibleModalityTransform):
             # Concatenate the action keys
             # We'll have StateActionToTensor before this transform, so here we use torch.cat
             data["action"] = torch.cat(
-                [data.pop(key) for key in self.action_concat_order], dim=-1
+                [self.tensorfy(data.pop(key)) for key in self.action_concat_order], dim=-1
             )  # [T, D_action]
 
         return data

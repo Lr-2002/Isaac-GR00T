@@ -108,8 +108,8 @@ class LeRobotSingleDataset(Dataset):
         embodiment_tag: str | EmbodimentTag,
         video_backend: str = "decord",
         video_backend_kwargs: dict | None = None,
-        # transforms: ComposedModalityTransform | None = None,
-        transforms = None,
+        transforms: ComposedModalityTransform | None = None,
+        # transforms = None,
     ):
         """
         Initialize the dataset.
@@ -146,7 +146,7 @@ class LeRobotSingleDataset(Dataset):
         self._all_steps = self._get_all_steps()
         self._modality_keys = self._get_modality_keys()
         self._delta_indices = self._get_delta_indices()
-        breakpoint()
+        # breakpoint()
         self.set_transforms_metadata(self.metadata)
         self.set_epoch(0)
 
@@ -305,7 +305,7 @@ class LeRobotSingleDataset(Dataset):
             original_key = le_modality_meta.video[new_key].original_key
             if original_key is None:
                 original_key = new_key
-            print(le_info['features'].keys())
+            # print(le_info['features'].keys())
             le_video_meta = le_info["features"][original_key]
             height = le_video_meta["shape"][le_video_meta["names"].index("height")]
             width = le_video_meta["shape"][le_video_meta["names"].index("width")]
@@ -661,10 +661,12 @@ class LeRobotSingleDataset(Dataset):
         video_path = self.get_video_path(trajectory_id, key)
         # Get the action/state timestamps for each frame in the video
         assert self.curr_traj_data is not None, f"No data found for {trajectory_id=}"
-        assert "timestamp" in self.curr_traj_data.columns, f"No timestamp found in {trajectory_id=}"
-        timestamp: np.ndarray = self.curr_traj_data["timestamp"].to_numpy()
+        # print(self.curr_traj_data.keys())
+       # assert "timestamp" in self.curr_traj_data.columns, f"No timestamp found in {trajectory_id=}"
+        # timestamp: np.ndarray = self.curr_traj_data["timestamp"].to_numpy()
         # Get the corresponding video timestamps from the step indices
-        video_timestamp = timestamp[step_indices]
+        # video_timestamp = timestamp[step_indices]
+        video_timestamp = [1 / 30 * x for x in step_indices]
 
         return get_frames_by_timestamps(
             video_path.as_posix(),
@@ -846,7 +848,7 @@ class CachedLeRobotSingleDataset(LeRobotSingleDataset):
                 # ), f"Expected {trajectory_length} frames, got {frames.shape[0]} frames"
                 all_frames.append(frames)
             cached_frames[key] = np.concatenate(all_frames, axis=0)
-            print(f"{key}: {cached_frames[key].shape}")
+            # print(f"{key}: {cached_frames[key].shape}")
         self.cached_frames = cached_frames
         self.start_indices = np.cumsum(self.trajectory_lengths) - self.trajectory_lengths
 
